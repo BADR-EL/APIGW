@@ -29,13 +29,15 @@ public class GatewayConfig {
 
     private void addRoute(RouteLocatorBuilder.Builder routes, RouteConfig routeConfig){
         if(routeConfig.isReadBody()){
-            routes.route(routeConfig.getId(),r->r.path(routeConfig.getPath())
+            routes.route(routeConfig.getId(),
+                    r->r.path("/"+routeConfig.getId()+routeConfig.getPath()+"/**")
                     .and().method(routeConfig.getMethod())
                     .and().readBody(routeConfig.getClassBody(),s->routeConfig.isReadBody())
                     .filters(f-> f.filters(routeConfig.getFilters()))
                     .uri(routeConfig.getBackEndUri()));
         }else{
-            routes.route(routeConfig.getId(),r->r.path(routeConfig.getPath())
+            routes.route(routeConfig.getId(),
+                    r->r.path("/"+routeConfig.getId()+routeConfig.getPath()+"/**")
                     .and().method(routeConfig.getMethod())
                     .filters(f-> f.filters(routeConfig.getFilters()))
                     .uri(routeConfig.getBackEndUri()));
